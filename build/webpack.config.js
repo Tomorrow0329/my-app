@@ -1,10 +1,15 @@
 const path = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');//自动创建html文件
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');//清除多余文件
 
 module.exports = {
   devtool: 'inline-source-map',
-  entry: './src/index.js',
+  entry: {
+    index: './src/index.js'
+  },
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, '../dist'),
     filename: 'bundle.js'
   },
   module: {
@@ -32,6 +37,15 @@ module.exports = {
   },
   devServer: {
     contentBase: './dist',
-    hot: true
-  }
+    hot: true,
+    inline: true,
+    port: 8181,
+  },
+  plugins: [
+    new CleanWebpackPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
+    new HtmlWebpackPlugin({
+      template: './src/index.html' //使用一个模板
+    })
+  ]
 }
