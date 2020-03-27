@@ -2,7 +2,6 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');//自动创建html文件
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');//清除多余文件
-// const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   /*
@@ -13,21 +12,17 @@ module.exports = {
   * source map 有很多不同的选项可用，这里使用 inline-source-map 选项
   * 其他可查阅文档：https://www.webpackjs.com/configuration/devtool/
   */
-  devtool: 'inline-source-map',
   entry: {
     index: './src/index.js'
   },
   output: {
     path: path.resolve(__dirname, '../dist'),
-    filename: 'bundle.js'
+    filename: '[name].bundle.js'
   },
   module: {
     rules: [{
-      test: /\.scss$/,
-      use: ["style-loader", "css-loader", "sass-loader"], // 加载时顺序从右向左
-    }, {
-      test: /\.(png|svg|jpg|gif)$/,
-      use: ['file-loader']
+      test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+      loader: 'url-loader?limit=5000',
     },
     {
       test: /\.(js|jsx)$/,
@@ -41,17 +36,17 @@ module.exports = {
     }
     ]
   },
-  devServer: {
-    contentBase: './dist',
-    hot: true,
-    inline: true,
-    port: 8181,
-  },
   plugins: [
     new CleanWebpackPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
       template: './src/index.html' //使用一个模板
     })
-  ]
+  ],
+  resolve: {
+    extensions: ['.js', '.jsx',   '.json'],
+    alias: {
+      '@': path.resolve(__dirname, '../src'),
+    },
+  },
 }
