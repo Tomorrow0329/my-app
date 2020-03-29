@@ -15,22 +15,15 @@ module.exports = {
   entry: {
     index: './src/index.js'
   },
-  output: {
-    path: path.resolve(__dirname, '../dist'),
-    filename: '[name].bundle.js'
-  },
   module: {
     rules: [{
       test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-      loader: 'url-loader?limit=5000',
+      loader: 'url-loader?limit=5000&name=images/[hash:8].[name].[ext]', // name 字段指定了在打包根目录（output.path）下生成名为 images 的文件夹，并在原图片名前加上8位 hash 值
     },
     {
       test: /\.(js|jsx)$/,
       use: {
         loader: 'babel-loader',
-        options: {
-          presets: ['@babel/preset-env']
-        }
       }, // 应该应用的 loader，它相对上下文解析, use 是应用多个 loader 和选项
       exclude: /node_modules/, // exclude 是必不匹配选项（优先于 test 和 include）
     }
