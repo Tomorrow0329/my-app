@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "webpack -watch",
-    "start": "webpack-dev-server --open --mode development --config build/webpack.dev.js",
-    "build": "webpack --config build/webpack.prod.js --mode production",
+    "start": "webpack-dev-server --open --mode development --config build/webpack.dev.js --env.NODE_ENV=development",
+    "build": "webpack --config build/webpack.prod.js --mode production --env.NODE_ENV=production",
     "dll": "webpack --config build/webpack.dll.js --mode production"
   },
   "keywords": [],
